@@ -72,15 +72,7 @@ function html() {
         .pipe(gulp.dest(paths.html.dest));
 }
 
-function watch() {
-    gulp.watch(paths.styles.src, styles);
-    gulp.watch(paths.scripts.src, scripts);
-    gulp.watch(paths.images.src, images);
-    gulp.watch(paths.fonts.src, fonts);
-    gulp.watch(paths.html.src, html);
-}
+const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html));
 
-const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html), watch);
-
-export { styles, scripts, images, fonts, html, watch, build };
+export { styles, scripts, images, fonts, html, build };
 export default build;
