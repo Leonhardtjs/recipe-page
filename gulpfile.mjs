@@ -12,7 +12,7 @@ import yargs from 'yargs';
 const sass = gulpSass(dartSass);
 const server = browserSync.create();
 const argv = yargs.argv;
-const PRODUCTION = !!argv.prod;
+const PRODUCTION = !argv.dev;
 
 const paths = {
     styles: {
