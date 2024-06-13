@@ -1,6 +1,6 @@
 # global context
 [build]
-  publish = "public"
+  publish = "dist"
   command = "gulp build"
 # build a preview (optional)
 [context.deploy-preview]
