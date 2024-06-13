@@ -5,14 +5,9 @@ import cleanCSS from 'gulp-clean-css';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
 import autoprefixer from 'gulp-autoprefixer';
-import browserSync from 'browser-sync';
 import imagemin from 'gulp-imagemin';
-import yargs from 'yargs';
 
 const sass = gulpSass(dartSass);
-const server = browserSync.create();
-const argv = yargs.argv;
-const PRODUCTION = !argv.dev;
 
 const paths = {
     styles: {
@@ -46,58 +41,35 @@ function styles() {
             basename: 'main',
             suffix: '.min'
         }))
-        .pipe(gulp.dest(paths.styles.dest))
-        .pipe(PRODUCTION ? gulp.noop() : server.stream());
+        .pipe(gulp.dest(paths.styles.dest));
 }
 
 function scripts() {
-    return gulp.src(paths.scripts.src, { sourcemaps: !PRODUCTION })
+    return gulp.src(paths.scripts.src, { sourcemaps: true })
         .pipe(uglify())
         .on('error', function (err) { console.log(err.toString()); this.emit('end'); })
         .pipe(rename({
             basename: 'main',
             suffix: '.min'
         }))
-        .pipe(gulp.dest(paths.scripts.dest))
-        .pipe(PRODUCTION ? gulp.noop() : server.stream());
+        .pipe(gulp.dest(paths.scripts.dest));
 }
 
 function images() {
     return gulp.src(paths.images.src)
         .pipe(imagemin({ optimizationLevel: 3 }))
         .on('error', function (err) { console.log(err.toString()); this.emit('end'); })
-        .pipe(gulp.dest(paths.images.dest))
-        .pipe(PRODUCTION ? gulp.noop() : server.stream());
+        .pipe(gulp.dest(paths.images.dest));
 }
 
 function fonts() {
     return gulp.src(paths.fonts.src)
-        .pipe(gulp.dest(paths.fonts.dest))
-        .pipe(PRODUCTION ? gulp.noop() : server.stream());
+        .pipe(gulp.dest(paths.fonts.dest));
 }
 
 function html() {
     return gulp.src(paths.html.src)
-        .pipe(gulp.dest(paths.html.dest))
-        .pipe(PRODUCTION ? gulp.noop() : server.stream());
-}
-
-function serve(done) {
-    if (!PRODUCTION) {
-        server.init({
-            server: {
-                baseDir: './dist'
-            }
-        });
-    }
-    done();
-}
-
-function reload(done) {
-    if (!PRODUCTION) {
-        server.reload();
-    }
-    done();
+        .pipe(gulp.dest(paths.html.dest));
 }
 
 function watch() {
@@ -105,11 +77,10 @@ function watch() {
     gulp.watch(paths.scripts.src, scripts);
     gulp.watch(paths.images.src, images);
     gulp.watch(paths.fonts.src, fonts);
-    gulp.watch(paths.html.src, html).on('change', reload);
+    gulp.watch(paths.html.src, html);
 }
 
-const dev = gulp.series(gulp.parallel(styles, scripts, images, fonts, html), serve, watch);
-const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html));
+const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html), watch);
 
-export { styles, scripts, images, fonts, html, watch, build, dev };
-export default PRODUCTION ? build : dev;
+export { styles, scripts, images, fonts, html, watch, build };
+export default build;
