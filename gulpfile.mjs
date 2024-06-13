@@ -11,7 +11,8 @@ import yargs from 'yargs';
 
 const sass = gulpSass(dartSass);
 const server = browserSync.create();
-const PRODUCTION = yargs.argv.prod;
+const argv = yargs.argv;
+const PRODUCTION = !!argv.prod;
 
 const paths = {
     styles: {
