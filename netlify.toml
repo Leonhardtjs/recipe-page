@@ -1,11 +1,10 @@
+# global context
 [build]
-  publish = "dist"
-  command = "npm run build"
-
-[build.environment]
-  NODE_VERSION = "16"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  publish = "public"
+  command = "gulp build"
+# build a preview (optional)
+[context.deploy-preview]
+  command = "gulp build-preview"
+# build a branch with debug (optional)
+[context.branch-deploy]
+  command = "gulp build-debug"
