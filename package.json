@@ -1,0 +1,28 @@
+{
+  "name": "recipe-page-main",
+  "version": "1.0.0",
+  "description": "This challenge will help you focus on writing semantic HTML. Ensure you think through what HTML elements are most appropriate for each piece of content.",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp"
+  },
+  "author": "Leonhardtjs",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.2",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2",
+    "sass": "^1.77.4"
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 1%"
+  ]
+}

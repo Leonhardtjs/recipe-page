@@ -1,0 +1,17 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+
+.attribution { 
+    display: none;
+    padding: 1rem;
+    text-align: center;
+    font-family: v.$outfit;
+    font-weight: 400;
+    line-height: 150%;
+    a { color: hsl(228, 45%, 44%); }
+
+    @include m.tablet { 
+       display: block;
+    }
+}

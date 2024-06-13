@@ -1,0 +1,56 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.nutrition {
+    &__heading {
+        @include m.heading-style(v.$nutmeg, v.$youngSerif, 2.8rem, 0 0 2.4rem 0);
+    }
+    &__description {
+        font-family: v.$outfit;
+        font-weight: 400;
+        line-height: 150%;
+        color: v.$wengeBrown;
+        margin: 0 0 2.4rem 0;
+    }
+    &__values {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1.2rem;
+    }
+
+    &__value {
+        @include m.grid(2, 0);
+        font-family: v.$outfit;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 150%;
+        color: v.$wengeBrown;
+        
+        &::after {
+            content: '';
+            border-bottom: 1px solid v.$lightGrey;
+            display: block;
+            padding-top: 1.2rem;
+            margin-bottom: 1.2rem;
+            grid-column: 1 / 3;
+        }
+
+        &:last-of-type {
+            &::after {
+                display: none;
+            }
+        }
+
+
+        span {
+            &:nth-child(1) {
+                padding-left: 3.2rem;
+            }
+            &:nth-child(2) {
+                font-weight: 700;
+                color: v.$nutmeg;
+            }
+        }
+    }
+}

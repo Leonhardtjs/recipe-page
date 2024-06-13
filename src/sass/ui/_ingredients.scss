@@ -1,0 +1,17 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.ingredients {
+    &__heading {
+        @include m.heading-style(v.$nutmeg, v.$youngSerif, 2.8rem, 0 0 2.4rem 0);
+    }
+
+    &__list {
+        @include m.flex-list;
+        padding-left: 1rem;
+    }
+
+    &__item {
+        @include m.list-item(3.2rem, v.$outfit, 1.6rem, v.$wengeBrown, v.$darkRaspberry);
+    }
+}

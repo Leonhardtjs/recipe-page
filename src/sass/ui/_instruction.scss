@@ -1,0 +1,36 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.instruction {
+    &__heading {
+        @include m.heading-style(v.$nutmeg, v.$youngSerif, 2.8rem, 0 0 2.4rem 0);
+    }
+
+    &__list {
+        @include m.flex-list;
+        padding-left: 1rem;
+    }
+
+    &__item {
+        font-family: v.$outfit;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 150%;
+        color: v.$wengeBrown;
+        padding-left: 1.6rem;
+
+        &::marker {
+            color: v.$nutmeg;
+            font-family: v.$outfit;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 150%;
+        }
+
+        span {
+            font-weight: 700;
+        }
+    }
+}

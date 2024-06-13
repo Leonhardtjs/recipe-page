@@ -1,0 +1,32 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.preparation-time {
+    @include m.container-style(v.$roseWhite, 2.8rem, 1.2rem, 3.2rem);
+
+    &__heading {
+        color: v.$darkRaspberry;
+        font-family: v.$outfit;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 2rem;
+        line-height: 100%;
+        margin: 0 0 1.6rem 0;
+    }
+
+    &__list {
+        @include m.flex-list;
+    }
+
+    &__item {
+        @include m.list-item(3.2rem, v.$outfit, 1.6rem, v.$wengeBrown, v.$darkRaspberry);
+
+
+        span {
+            margin-right: .5rem;
+            font-style: normal;
+            font-weight: 700;
+            color: v.$wengeBrown;
+        }
+    }   
+}

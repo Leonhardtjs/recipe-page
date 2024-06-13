@@ -1,0 +1,84 @@
+@use 'variables' as v; 
+
+/** Media Queries **/
+@mixin mobile {
+    @media (min-width: v.$mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: v.$tablet) {
+        @content;
+    }
+}
+  
+@mixin desktop {
+    @media (min-width: v.$desktop) {
+        @content;
+    }
+}
+
+@mixin grid($columnas, $espaciado ) {
+    display: grid;
+    gap: $espaciado;
+    grid-template-columns: repeat($columnas, 1fr);
+}
+
+@mixin heading-style($color, $font-family, $font-size, $margin) {
+    color: $color;
+    font-family: $font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-size: $font-size;
+    line-height: 100%;
+    margin: $margin;
+}
+
+@mixin flex-list($direction: column, $gap: .8rem) {
+    display: flex;
+    flex-direction: $direction;
+    row-gap: $gap;
+}
+
+@mixin list-item($padding-left, $font-family, $font-size, $color, $marker-color) {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: $padding-left;
+    font-family: $font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-size: $font-size;
+    line-height: 150%;
+    color: $color;
+
+    &::before, &::marker {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: .4rem;
+        height: .4rem;
+        background-color: $marker-color;
+        border-radius: 100%;
+    }
+
+    & span {
+        font-weight: 700;
+    }
+}
+
+@mixin container-style($bg-color, $padding, $border-radius, $margin-bottom: null) {
+    background-color: $bg-color;
+    padding: $padding;
+    border-radius: $border-radius;
+    @if $margin-bottom {
+        margin-bottom: $margin-bottom;
+    }
+}
+
+@mixin transform-animation($transform, $opacity, $duration: 300ms, $ease: ease-out) {
+    transform: $transform;
+    opacity: $opacity;
+    transition: transform $duration $ease, opacity $duration $ease;
+}
