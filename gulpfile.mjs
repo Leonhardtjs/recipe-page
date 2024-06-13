@@ -7,8 +7,11 @@ import rename from 'gulp-rename';
 import autoprefixer from 'gulp-autoprefixer';
 import browserSync from 'browser-sync';
 import imagemin from 'gulp-imagemin';
+import yargs from 'yargs';
 
 const sass = gulpSass(dartSass);
+const server = browserSync.create();
+const PRODUCTION = yargs.argv.prod;
 
 const paths = {
     styles: {
@@ -43,11 +46,11 @@ function styles() {
             suffix: '.min'
         }))
         .pipe(gulp.dest(paths.styles.dest))
-        .pipe(browserSync.stream());
+        .pipe(PRODUCTION ? gulp.noop() : server.stream());
 }
 
 function scripts() {
-    return gulp.src(paths.scripts.src, { sourcemaps: true })
+    return gulp.src(paths.scripts.src, { sourcemaps: !PRODUCTION })
         .pipe(uglify())
         .on('error', function (err) { console.log(err.toString()); this.emit('end'); })
         .pipe(rename({
@@ -55,7 +58,7 @@ function scripts() {
             suffix: '.min'
         }))
         .pipe(gulp.dest(paths.scripts.dest))
-        .pipe(browserSync.stream());
+        .pipe(PRODUCTION ? gulp.noop() : server.stream());
 }
 
 function images() {
@@ -63,35 +66,49 @@ function images() {
         .pipe(imagemin({ optimizationLevel: 3 }))
         .on('error', function (err) { console.log(err.toString()); this.emit('end'); })
         .pipe(gulp.dest(paths.images.dest))
-        .pipe(browserSync.stream());
+        .pipe(PRODUCTION ? gulp.noop() : server.stream());
 }
 
 function fonts() {
     return gulp.src(paths.fonts.src)
         .pipe(gulp.dest(paths.fonts.dest))
-        .pipe(browserSync.stream());
+        .pipe(PRODUCTION ? gulp.noop() : server.stream());
 }
 
 function html() {
     return gulp.src(paths.html.src)
         .pipe(gulp.dest(paths.html.dest))
-        .pipe(browserSync.stream());
+        .pipe(PRODUCTION ? gulp.noop() : server.stream());
+}
+
+function serve(done) {
+    if (!PRODUCTION) {
+        server.init({
+            server: {
+                baseDir: './dist'
+            }
+        });
+    }
+    done();
+}
+
+function reload(done) {
+    if (!PRODUCTION) {
+        server.reload();
+    }
+    done();
 }
 
 function watch() {
-    browserSync.init({
-        server: {
-            baseDir: './dist'
-        }
-    });
     gulp.watch(paths.styles.src, styles);
     gulp.watch(paths.scripts.src, scripts);
     gulp.watch(paths.images.src, images);
     gulp.watch(paths.fonts.src, fonts);
-    gulp.watch(paths.html.src, html).on('change', browserSync.reload);
+    gulp.watch(paths.html.src, html).on('change', reload);
 }
 
-const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html), watch);
+const dev = gulp.series(gulp.parallel(styles, scripts, images, fonts, html), serve, watch);
+const build = gulp.series(gulp.parallel(styles, scripts, images, fonts, html));
 
-export { styles, scripts, images, fonts, html, watch, build };
-export default build;
+export { styles, scripts, images, fonts, html, watch, build, dev };
+export default PRODUCTION ? build : dev;
